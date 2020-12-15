@@ -2,12 +2,6 @@ package com.vimond;
 
 import java.util.*;
 import java.util.logging.Logger;
-
-
-/**
- * 
- */
-
 /**
  * @author Anshu.Shireen
  *
@@ -34,31 +28,33 @@ public class Intervals {
 	public ArrayList<Integer> getIntervals(){
 		return mergedIntervals;	
 	}
+	
+	public static void readInput(){	
+		start =0;end =0;
 
+		System.out.print("Enter start of interval- ");  
+		start= sc.nextInt();  
 
+		System.out.print("Enter end of interval- ");  
+		end= sc.nextInt();  
+	}
 
 	public static ArrayList<Integer> createList(int begin , int end){
 		ArrayList<Integer> l = new ArrayList(end - begin+1);
 		for(int i = begin; i <= end; l.add(i),i++);
 		return l;
 	}
-
-
-
-	public static ArrayList<Integer> mergeIntervals(ArrayList<Integer> mlist, ArrayList<Integer> nlist){
-//		LOGGER.info("Merging the intervals...");
-		mlist.addAll(mlist.size(),nlist);
-		return mlist;
-	}
-
+	
 	public Set<Integer> removeDuplicates(ArrayList<Integer> l){	
 		Collections.sort(l);
 		Set<Integer> s = new LinkedHashSet<Integer>(l);
 		return s;
-
 	}
 
-
+	public static ArrayList<Integer> mergeIntervals(ArrayList<Integer> mlist, ArrayList<Integer> nlist){
+		mlist.addAll(mlist.size(),nlist);
+		return mlist;
+	}
 
 	public static Set<Integer> removeItem(Set<Integer> ins, int element) {
 		for (Iterator<Integer> i = ins.iterator(); i.hasNext();) {
@@ -70,15 +66,6 @@ public class Intervals {
 		return ins;
 	}
 
-	public static void readInput(){	
-		start =0;end =0;
-
-		System.out.print("Enter start of interval- ");  
-		start= sc.nextInt();  
-
-		System.out.print("Enter end of interval- ");  
-		end= sc.nextInt();  
-	}
 
 	/**
 	 * @param inclusions
@@ -88,7 +75,6 @@ public class Intervals {
 	public static Set<Integer> getFinalIntervals(Intervals inc,  Intervals ... args) {
 		Set<Integer> result = new LinkedHashSet<Integer>();
 		LOGGER.info("#######  Sorting and Removing duplicates from the interval lists #####");
-		
 		//System.out.println("#######  User Input List  "+inc.getIntervals());
 		Set<Integer> ins = inc.removeDuplicates(inc.getIntervals());
 		//System.out.println("#######  Final List       "+ins);
@@ -106,25 +92,19 @@ public class Intervals {
 			}
 
 		} else result = ins;
-		
+
 		return result;
 	}
 
 
 
-
 	public static void main(String[] args) {
-		/*Includes: 10-100, 200-300, 400-500
-		Excludes: 95-205, 410-420
-		Output should be: 10-19, 31-100*/
 
-
+		/*Read Inclusions list*/	
 		Intervals inclusions = new Intervals();
 		LOGGER.info(" ######### Enter the \"Includes\" interval ranges ###########");
 		String response;
 		ArrayList<Integer> inl =new ArrayList<Integer>();
-
-
 		do {
 			readInput();
 			inclusions.setIntervals();
@@ -135,12 +115,11 @@ public class Intervals {
 		while (response.contains("y"));
 		inl=inclusions.getIntervals();
 
+		/*Read Exclusions list*/
 		Intervals exclusions = new Intervals();
 		LOGGER.info(" ######### Enter the \"Excludes\" interval ranges ############");
-
 		ArrayList<Integer> exl =new ArrayList<Integer>();
 		response =null;
-
 		do{
 			readInput();
 			exclusions.setIntervals();
@@ -149,12 +128,10 @@ public class Intervals {
 		}
 		while (response.contains("y"));	
 		exl = exclusions.getIntervals();
-		
 
-
+		/*Get the final list*/	
 		Set<Integer> result = new LinkedHashSet<Integer>();
 		result = getFinalIntervals(inclusions, exclusions);
-
 		LOGGER.info(" \"Resultant\" list ");
 		LOGGER.info(result.toString());
 	}
