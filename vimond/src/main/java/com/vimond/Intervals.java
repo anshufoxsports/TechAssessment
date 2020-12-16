@@ -74,17 +74,14 @@ public class Intervals {
 	 */
 	public static Set<Integer> getFinalIntervals(Intervals inc,  Intervals ... args) {
 		Set<Integer> result = new LinkedHashSet<Integer>();
+		
 		LOGGER.info("#######  Sorting and Removing duplicates from the interval lists #####");
-		//System.out.println("#######  User Input List  "+inc.getIntervals());
 		Set<Integer> ins = inc.removeDuplicates(inc.getIntervals());
-		//System.out.println("#######  Final List       "+ins);
 
 		Intervals exc = new Intervals();
 		if (args.length>0){
 			exc = args[0];
-			System.out.println("#######  Input Exclusion       "+exc.getIntervals());
 			Set<Integer> exs = exc.removeDuplicates(exc.getIntervals());
-			System.out.println("#######  Final Exclusions List "+exs);
 
 			//Removing the exclusions 
 			for(Integer i : exs){
@@ -108,12 +105,13 @@ public class Intervals {
 		do {
 			readInput();
 			inclusions.setIntervals();
-
 			System.out.print("do you wish to add more intervals? y/n ");
 			response = sc.next();
 		}
 		while (response.contains("y"));
 		inl=inclusions.getIntervals();
+		System.out.println("#######  User Input List  "+inl);
+
 
 		/*Read Exclusions list*/
 		Intervals exclusions = new Intervals();
@@ -128,12 +126,14 @@ public class Intervals {
 		}
 		while (response.contains("y"));	
 		exl = exclusions.getIntervals();
+		System.out.println("#######  User Excludes List  "+exl);
+
 
 		/*Get the final list*/	
 		Set<Integer> result = new LinkedHashSet<Integer>();
 		result = getFinalIntervals(inclusions, exclusions);
-		LOGGER.info(" \"Resultant\" list ");
-		LOGGER.info(result.toString());
+		System.out.println(" \"Resultant\" list ");
+		System.out.println(result.toString());
 	}
 
 }
